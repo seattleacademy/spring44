@@ -1,0 +1,33 @@
+{
+  "name": "spring44",
+  "version": "0.0.1",
+  "description": "sensors and robot working together",
+  "main": "server.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seattleacademy/spring40.git"
+  },
+  "keywords": [
+    "irobot",
+    "sensor-hat"
+  ],
+  "author": "Gary Anderson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/seattleacademy/spring40/issues"
+  },
+  "homepage": "https://github.com/seattleacademy/spring44#readme",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "lodash": "^4.13.1",
+    "node.extend": "^1.1.5",
+    "nodeimu": "^2.1.7",
+    "sense-hat-led": "^0.1.10",
+    "serialport": "^3.1.2",
+    "ws": "^1.1.0"
+  }
+}
