@@ -1,5 +1,5 @@
-config = require("./config");
-console.log(config.port)
+//config = require("./config");
+//console.log(config.port)
 var nodeimu = require('nodeimu');
 var IMU = new nodeimu.IMU();
 function getData() {

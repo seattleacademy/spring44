@@ -5,7 +5,7 @@ var http = require('http');
 var express = require('express');
 var app = express();
 
-port = 2001;
+port = 6001;
 var sensors = {};
 counter = 0;
 app.use(express.static(__dirname + '/public'));
