@@ -165,10 +165,34 @@
     });
 
     $("body").keydown(function(e) {
+        // iv = 0;
+
         console.log(e.keyCode);
         var key = e.keyCode;
         oldRight = $("#rightSpeed").text() * 1;
         oldLeft = $("#leftSpeed").text() * 1;
+        if(oldRight>500){
+            oldRight=500;
+        }else if(oldRight<-500){
+            oldRight=-500;
+        }
+        if(oldLeft>500){
+            oldLeft=500;
+        }else if(oldLeft<-500){
+            oldLeft=-500;
+        }
+        function slowToStop(){;
+            if(oldLeft<=50&&oldLeft>=-50){
+                oldLeft = 0;
+            }else if(oldLeft>50||oldLeft<-50){
+                oldLeft = Math.round(oldLeft / 2);
+            }
+            if(oldRight<=50&&oldRight>=-50){
+                oldRight = 0;
+            }else if(oldRight>50||oldRight<-50){
+                oldRight = Math.round(oldRight / 2);
+            }
+        }
         if (key == 87) {
             oldLeft += 50;
             oldRight += 50;
@@ -205,9 +229,17 @@
                 right: oldRight
             }));
         }
-        if (key == 32) {
+        if (key == 13) {
             oldRight = 0;
             oldLeft = 0;
+            console.log("rotateleft", oldLeft, oldRight);
+            $.post("/drive", JSON.stringify({
+                left: oldLeft,
+                right: oldRight
+            }));
+        }
+        if (key == 32) {
+            slowToStop();
             console.log("stop");
             $.post("/drive", JSON.stringify({
                 left: oldLeft,
