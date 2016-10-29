@@ -61,7 +61,7 @@ app.all('/drive', function(req, res) {
 
 });
 
-port = 5001;
+port = 3001;
 var sensors = {};
 counter = 0;
 app.use(express.static(__dirname + '/public'));
