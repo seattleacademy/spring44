@@ -163,16 +163,46 @@
     });
 
     $("body").keydown(function(e) {
-        //console.log("keydown",e.keyCode);
-        //console.log('latest',latestData.vL,latestData.vR)
-
-        if (e.keyCode == 87) {
-            console.log('latest', latestData.vL + 10, latestData.vR);
+        console.log(e.keyCode);
+        var key = e.keyCode;
+        if (key == 87) {
+            console.log("forward");
             $.post("/drive", JSON.stringify({
-                left: latestData.vL + 10,
+                left: 50,
+                right: 50
+            }));
+        }
+        if (key == 83) {
+            console.log("backward");
+            $.post("/drive", JSON.stringify({
+                left: -50,
+                right: -50
+            }));
+        }
+        if (key == 65) {
+            //Change this code to rotate
+            console.log("rotateright");
+            $.post("/drive", JSON.stringify({
+                left: 100,
+                right: 50
+            }));
+        }
+        if (key == 68) {
+            //Change this code to rotate
+            console.log("rotateleft");
+            $.post("/drive", JSON.stringify({
+                left: 50,
+                right: 100
+            }));
+        }
+        if (key == 32) {
+            console.log("stop");
+            $.post("/drive", JSON.stringify({
+                left: 0,
                 right: 0
             }));
         }
+
     });
     </script>
 </body>
