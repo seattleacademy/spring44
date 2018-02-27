@@ -5,7 +5,7 @@ var http = require('http');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-app.use(bodyParser.text({type:"*/*"}));
+app.use(bodyParser.text({ type: "*/*" }));
 
 var robotData = {};
 robotData.counter = 0;
@@ -17,7 +17,10 @@ robotData.mac = networkInterfaces.wlan0[0].mac;
 robotData.odometer = 0;
 
 var irobot = require('./irobot');
-var robot = new irobot.Robot('/dev/ttyUSB0');
+//Comment out one of the two lines below
+var robot = new irobot.Robot('/dev/ttyUSB0', { baudrate: 115200 }); //for create2
+var robot = new irobot.Robot('/dev/ttyUSB0'); //for create1
+
 
 robot.on('sensordata', function(data) {
     robotData.odometer += data.state.distance.millimeters;
@@ -57,11 +60,24 @@ app.all('/drive', function(req, res) {
     console.log(JSON.parse(req.body));
     robot.drive(JSON.parse(req.body));
     res.send();
-   // console.log(JSON.stringify(sensors, null, 4));
+    // console.log(JSON.stringify(sensors, null, 4));
 
 });
 
-port = 3001;
+app.all('/sing', function(req, res) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    if (robotData.mode == "passive") robot.safeMode();
+    song = JSON.parse(req.body).song;
+    song = song.replace(/\s/g, '');
+    song = JSON.parse(song);
+    console.log('song', song)
+    robot.sing(song);
+    res.send();
+    // console.log(JSON.stringify(sensors, null, 4));
+
+});
+
+port = 4001; //Change the first digit to match your robot
 var sensors = {};
 counter = 0;
 app.use(express.static(__dirname + '/public'));

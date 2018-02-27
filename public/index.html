@@ -33,6 +33,18 @@
     </div>
     <div id="rightSpeed">0</div>
     <div id="leftSpeed">0</div>
+    <div>
+        <textarea id="song" rows="4" cols="50">
+            [[640,100],[650,200]]
+        </textarea>
+        <button id="sing">sing</button>
+        <textarea id="movements" rows="4" cols="50">
+            30,30,1000
+            40,60,90
+        </textarea>
+          <button id="drive">drive</button>
+
+    </div>
     <script src='jquery-2.2.4.min.js'></script>
     <script src='gauges.js'></script>
     <script>
@@ -171,25 +183,26 @@
         var key = e.keyCode;
         oldRight = $("#rightSpeed").text() * 1;
         oldLeft = $("#leftSpeed").text() * 1;
-        if(oldRight>500){
-            oldRight=500;
-        }else if(oldRight<-500){
-            oldRight=-500;
+        if (oldRight > 500) {
+            oldRight = 500;
+        } else if (oldRight < -500) {
+            oldRight = -500;
         }
-        if(oldLeft>500){
-            oldLeft=500;
-        }else if(oldLeft<-500){
-            oldLeft=-500;
+        if (oldLeft > 500) {
+            oldLeft = 500;
+        } else if (oldLeft < -500) {
+            oldLeft = -500;
         }
-        function slowToStop(){;
-            if(oldLeft<=50&&oldLeft>=-50){
+
+        function slowToStop() {;
+            if (oldLeft <= 50 && oldLeft >= -50) {
                 oldLeft = 0;
-            }else if(oldLeft>50||oldLeft<-50){
+            } else if (oldLeft > 50 || oldLeft < -50) {
                 oldLeft = Math.round(oldLeft / 2);
             }
-            if(oldRight<=50&&oldRight>=-50){
+            if (oldRight <= 50 && oldRight >= -50) {
                 oldRight = 0;
-            }else if(oldRight>50||oldRight<-50){
+            } else if (oldRight > 50 || oldRight < -50) {
                 oldRight = Math.round(oldRight / 2);
             }
         }
@@ -203,7 +216,7 @@
             }));
         }
         if (key == 83) {
-            oldRight -=50;
+            oldRight -= 50;
             oldLeft -= 50;
             console.log("backward", oldLeft, oldRight);
             $.post("/drive", JSON.stringify({
@@ -249,6 +262,15 @@
         $("#leftSpeed").text(oldLeft);
         $("#rightSpeed").text(oldRight);
 
+    });
+
+    $("#sing").click(function() {
+        song= $("#song").val();
+        console.log(JSON.stringify(
+            song));
+        $.post("/sing", JSON.stringify({
+            song: song
+        }));
     });
     </script>
 </body>
