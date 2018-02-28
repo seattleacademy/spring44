@@ -34,16 +34,12 @@
     <div id="rightSpeed">0</div>
     <div id="leftSpeed">0</div>
     <div>
-        <textarea id="song" rows="4" cols="50">
-            [[640,100],[650,200]]
-        </textarea>
+        <textarea id="song" rows="4" cols="50">[[640,100],[650,200]]</textarea>
         <button id="sing">sing</button>
-        <textarea id="movements" rows="4" cols="50">
-            30,30,1000
-            40,60,90
-        </textarea>
-          <button id="drive">drive</button>
-
+        <textarea id="movements" rows="4" cols="50">30,30,1000
+40,60,500
+0,0,200</textarea>
+        <button id="drive">drive</button>
     </div>
     <script src='jquery-2.2.4.min.js'></script>
     <script src='gauges.js'></script>
@@ -265,12 +261,42 @@
     });
 
     $("#sing").click(function() {
-        song= $("#song").val();
+        song = $("#song").val();
         console.log(JSON.stringify(
             song));
         $.post("/sing", JSON.stringify({
             song: song
         }));
+    });
+
+
+    $("#drive").click(function() {
+        movements = $("#movements").val();
+        movements = movements.split(/\r?\n/);;
+        runningTime = 0;
+        for (i = 0; i < movements.length; i++) {
+            movement = movements[i];
+            movement = movement.replace(/\s/g, '');
+            movementSplit = movement.split(",");
+            // console.log(movementSplit,movementSplit[0],movementSplit[1],movementSplit[2]);
+            
+            if (movementSplit.length == 3) {
+                setTimeout(function(a,b,c) {
+                    console.log("a",a,b,c);
+                    $.post("/drive", JSON.stringify({
+                        left: a,
+                        right: b
+                    }));
+                }, runningTime,movementSplit[0],movementSplit[1],movementSplit[2]);
+                runningTime += movementSplit[2]*1;
+            }
+        }
+
+        // console.log(JSON.stringify(
+        //     movements));
+        // $.post("/sing", JSON.stringify({
+        //     song: song
+        // }));
     });
     </script>
 </body>
